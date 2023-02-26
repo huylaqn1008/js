@@ -3,13 +3,20 @@ import './App.css';
 
 function App() {
     return ( <
-        div className = "App" >
+        div >
         <
         header >
         <
-        a hred = "/" > Wed flower < /a> <
+        a href = "/" > Web Flowers < /a> <
         /header> <
-        main > list product < /main> <
+        main >
+        <
+        h1 > Feature Products < /h1> <
+        div className = "products" >
+
+        <
+        /div> <
+        /main> <
         /div>
     );
 }
