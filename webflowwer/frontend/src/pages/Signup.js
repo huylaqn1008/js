@@ -3,6 +3,7 @@ import loginImage from '../assets/login-user.gif';
 import {BiShow, BiHide} from 'react-icons/bi'
 import { Link, useNavigate } from 'react-router-dom';
 import { ImagetoBase64 } from '../utility/ImagetoBase64';
+import { toast } from "react-hot-toast";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -48,11 +49,22 @@ const Signup = () => {
     //set condition for text fields
     const {firstName, email, password, confirmPassword} = data
     if(firstName && email && password && confirmPassword) {
-      if(password.length >= 6 && /\d/.test(password) && /[!@#$%^&*]/.test(password)) {
+      if(password.length >= 6 && /\d/.test(password) && /[!@#$%^&*-]/.test(password)) {
         if(password === confirmPassword) {
-          const fetchData = await fetch("")
-          alert("Successful")
-          navigate("/login")
+          const fetchData = await fetch(`${process.env.REACT_APP_SERVER_DOMAIN}/signup`,{
+            method: "POST",
+            headers: {
+              "content-type" : "application/json"
+            },
+            body : JSON.stringify(data)
+          })
+          const dataRes = await fetchData.json()
+          console.log(dataRes)
+          //alert(dataRes.message)
+          toast(dataRes.message)
+          if(dataRes.alert){
+          navigate("/login");
+        }
         } else {
           alert("Password and confirm password not equal")
         }
