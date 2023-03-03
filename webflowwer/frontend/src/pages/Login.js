@@ -2,21 +2,22 @@ import React, { useState } from 'react';
 import loginImage from '../assets/login-user.gif';
 import {BiShow, BiHide} from 'react-icons/bi'
 import { Link, useNavigate } from 'react-router-dom';
+import { toast } from "react-hot-toast";
 
 const Login = () => {
   const navigate = useNavigate();
+
   const [showPassword, setShowPassword] = useState(false);
+
   const [data,setData] = useState({
-    firstName: "",
-    lastName: "",
     email: "",
-    password: "",
-    confirmPassword: "",
+    password: ""
   });
-  console.log(data);
+
   const handleShowPassword = () => {
     setShowPassword (prev => !prev);
   };
+
   const handleOnChange = (e) => {
     const {name, value} = e.target
     setData((preve) => {
@@ -26,14 +27,32 @@ const Login = () => {
       }
     })
   }
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     //submit email without @
     e.preventDefault()
     //set condition for text fields
     const {email, password} = data
     if(email && password) {
-      alert('Successfull')
-      navigate("/login")
+      try {
+        const fetchData = await fetch(`${process.env.REACT_APP_SERVER_DOMAIN}/login`, {
+          method: "POST",
+          headers: {
+            "content-type": "application/json"
+          },
+          body: JSON.stringify(data)
+        })
+        const dataRes = await fetchData.json()
+        console.log(dataRes)
+        toast(dataRes.message)
+        if(dataRes.alert){
+          setTimeout(() => {
+            navigate("/")
+          }, 1000)
+        }
+      } catch (error) {
+        console.log(error)
+      }
     } else {
       alert('Please enter required fields')
     }

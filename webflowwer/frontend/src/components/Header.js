@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import logo from '../assets/logo.png';
-import {HiOutlineUserCircle} from 'react-icons/hi';
-import {FaShoppingCart} from 'react-icons/fa';
+import { HiOutlineUserCircle } from 'react-icons/hi';
+import { FaShoppingCart } from 'react-icons/fa';
 
 const Header = () => {
-  const[showMenu,setShowMenu] = useState(false)
+  const [showMenu, setShowMenu] = useState(false)
   const handleShowMenu = () => {
     setShowMenu(preve => !preve)
   }
-  return (  
+  return (
     <header className='fixed shadow-md w-full h-32 px-2 md:px-4 z-50 bg-white' style={{ borderBottom: '2px solid #ccc' }}>
       <div className='flex items-center h-full justify-between'>
         <Link to={''}>
           <div className="h-18">
-            <img src={logo} className="h-full"/>
+            <img src={logo} className="h-full" />
           </div>
         </Link>
         <div className='flex items-center gap-4 md:gap-7'>
@@ -52,7 +52,7 @@ const Header = () => {
                 </div>
               </div>
             )}
-          </div> 
+          </div>
         </div>
       </div>
     </header>
