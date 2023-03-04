@@ -11,7 +11,7 @@ import Contact from './pages/Contact';
 import Login from './pages/Login';
 import NewProduct from './pages/NewProduct';
 import Signup from './pages/Signup';
-import { shop } from './redux/index';
+import { store } from './redux/index';
 import { Provider } from 'react-redux';
 
 const router = createBrowserRouter(
@@ -30,7 +30,7 @@ const router = createBrowserRouter(
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <Provider shop={shop}>
+  <Provider store={store}>
     <RouterProvider router={router} />
   </Provider>
 );
