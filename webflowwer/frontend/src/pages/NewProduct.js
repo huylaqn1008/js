@@ -56,7 +56,7 @@ const NewProduct = () => {
 
       console.log(fetchRes)
       toast(fetchRes.message, {
-        style: { backgroundColor: '#00FF7F' }
+        style: { backgroundColor: '#00FF7F', color: 'white' }
       }) // Thông báo đã upload sản phẩm thành công
 
       setData(() => {
