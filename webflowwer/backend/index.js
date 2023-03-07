@@ -125,7 +125,7 @@ app.post("/uploadProduct", async (req, res) => {
   res.send({ message: "Upload successfully" }) // Gửi phản hồi xác nhận upload thành công
 })
 
-// Product page
+//  Product page
 app.get("/product", async (req, res) => {
   const data = await productModel.find({})
   res.send(data)

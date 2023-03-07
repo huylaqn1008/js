@@ -1,6 +1,8 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import MotorBike from "../assets/motorbike.png"
+import Flowers from "../assets/flowers.png"
+import Friendly from "../assets/friendly.png"
 import HomeCard from "../components/HomeCard";
 
 const Home = () => {
@@ -13,10 +15,21 @@ const Home = () => {
         <div className="p-2 md:p-4">
             <div className="md:flex gap-4 py-2">
                 <div className="md:w-1/2">
-                    <div className="flex gap-3 bg-green-300 w-52 px-2 py-3 item-center rounded-full">
-                        <p className="text-sm font-bold text-slate-900 py-2" style={{ fontSize: "22px" }}>Motorbike Delivery</p>
-                        <img src={MotorBike} className="h-14" />
+                    <div style={{ display: "flex", flexDirection: "row" }}>
+                        <div className="flex gap-3 bg-purple-300 w-52 px-2 py-3 item-center rounded-full" style={{ marginRight: '40px' }}>
+                            <p className="text-sm font-bold text-slate-900 py-2 ml-2" style={{ fontSize: "22px" }}>Motorbike Delivery</p>
+                            <img src={MotorBike} className="h-14" />
+                        </div>
+                        <div className="flex gap-3 bg-pink-300 w-52 px-2 py-3 item-center rounded-full" style={{ marginLeft: '40px', marginRight: '40px' }}>
+                            <p className="text-sm font-bold text-slate-900 py-2 ml-2" style={{ fontSize: "22px" }}>Flowers Beautiful</p>
+                            <img src={Flowers} className="h-14" />
+                        </div>
+                        <div className="flex gap-3 bg-orange-300 w-52 px-2 py-3 item-center rounded-full" style={{ marginLeft: '40px' }}>
+                            <p className="text-sm font-bold text-slate-900 py-2 ml-2" style={{ fontSize: "22px" }}>Friendly Interface</p>
+                            <img src={Friendly} className="h-14 px-2 mt-1" />
+                        </div>
                     </div>
+
                     <h2 className="md:text-8xl font-bold py-3">Shop Flower Faster Delivery in <span className="text-green-600">Your Home</span></h2>
                     <p className="py-4 px-2 text-base">Ordering flowers online brings users many different risks. You should consider and research carefully to choose for yourself the best quality reputable flower delivery address. Our website is trusted by many users because it always brings customers quality fresh flowers, actual samples like the picture, beautiful colors. In addition, you also get free delivery within Saigon city depending on the distance.</p>
                     <button className="font-bold bg-red-500 text-slate-200 px-4 py-2 rounded-md" style={{ fontSize: "18px" }}>Order now</button>

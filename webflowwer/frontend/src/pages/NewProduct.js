@@ -55,7 +55,9 @@ const NewProduct = () => {
       const fetchRes = await fetchData.json()
 
       console.log(fetchRes)
-      toast(fetchRes.message) // Thông báo đã upload sản phẩm thành công
+      toast(fetchRes.message, {
+        style: { backgroundColor: '#00FF7F' }
+      }) // Thông báo đã upload sản phẩm thành công
 
       setData(() => {
         return {
