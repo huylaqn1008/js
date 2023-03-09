@@ -17,7 +17,7 @@ const Home = () => {
     const homeProducCartList = productData.slice(0, 5)
 
     // Lọc và lấy 10 sản phẩm hoa đầu tiên cho giỏ hàng trang chủ
-    const homeProducCartListFlower = [...productData].filter((item) => ["rose", "orchid", "lily", "apricot", "lotus", "hibiscus"].includes(item.category)).slice(0, 10)
+    const homeProducCartListFlower = [...productData].filter((item) => ["rose", "orchid", "lily", "apricot", "lotus", "hibiscus"].includes(item.category)).slice(0, 11)
     console.log(homeProducCartListFlower)
 
     // Tạo hai mảng với các giá trị null
@@ -29,12 +29,12 @@ const Home = () => {
 
     // Hàm di chuyển danh sách sản phẩm sang phải 200px khi nhấp vào nút
     const nextProduct = () => {
-        slideProductRef.current.scrollLeft += 200
+        slideProductRef.current.scrollLeft += 300
     }
 
     // Hàm di chuyển danh sách sản phẩm sang trái 200px khi nhấp vào nút
     const previousProduct = () => {
-        slideProductRef.current.scrollLeft -= 200
+        slideProductRef.current.scrollLeft -= 300
     }
 
     // Một mảng các danh mục để sử dụng làm tùy chọn bộ lọc
@@ -116,8 +116,8 @@ const Home = () => {
             </div>
 
             <div className="">
-                <div className="flex w-full items-center">
-                    <h2 className="font-bold text-3xl text-slate-800 mb-4">Flowers</h2>
+                <div className="flex w-full items-center mt-5">
+                    <h2 className="font-bold text-3xl text-slate-800 mb-4">Best Beauty Flowers</h2>
                     <div className="ml-auto flex gap-4">
                         <button className="text-4xl bg-green-300 hover:bg-red-300 p-1 rounded-full" onClick={previousProduct}><GrFormPreviousLink /></button>
                         <button className="text-4xl bg-green-300 hover:bg-red-300 p-1 rounded-full" onClick={nextProduct}><GrFormNextLink /></button>
@@ -144,7 +144,7 @@ const Home = () => {
             </div>
 
 
-            <div className="my-5 mt-6">
+            <div className="my-5 mt-20">
                 <h2 className="font-bold text-3xl text-slate-800 mb-4">
                     All Product
                 </h2>
