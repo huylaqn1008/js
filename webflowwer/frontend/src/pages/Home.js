@@ -6,7 +6,7 @@ import Friendly from "../assets/friendly.png"
 import HomeCard from "../components/HomeCard"
 import CardFeature from "../components/CardFeature"
 import { GrFormPreviousLink, GrFormNextLink } from "react-icons/gr"
-import FilterProducts from "../components/FilterProducts"
+import AllProduct from "../components/AllProduct"
 
 const Home = () => {
     // Sử dụng hook useSelector từ react-redux để lấy state productList từ store của redux
@@ -35,36 +35,6 @@ const Home = () => {
     // Hàm di chuyển danh sách sản phẩm sang trái 200px khi nhấp vào nút
     const previousProduct = () => {
         slideProductRef.current.scrollLeft -= 300
-    }
-
-    // Một mảng các danh mục để sử dụng làm tùy chọn bộ lọc
-    const categories = ["rose", "orchid", "lily", "apricot", "lotus", "hibiscus"]
-
-    // Sử dụng useState hook để đặt giá trị bộ lọc mặc định
-    const [filterBy, setFilterBy] = useState("")
-    // Sử dụng useState hook để đặt trạng thái ban đầu của dataFilter bằng tất cả các sản phẩm
-    const [dataFilter, setDataFilter] = useState([])
-
-    // Sử dụng useEffect để thực hiện setDataFilter với giá trị ban đầu là productList lấy từ store.
-    useEffect(() => {
-        setDataFilter(productData)
-    }, [productData])
-
-    // Hàm xử lý các thay đổi tùy chọn bộ lọc danh mục
-    const handleFilterProduct = (selectedCategory) => {
-        let filteredData = []
-        if (selectedCategory === "Flowers") {
-            // Nếu danh mục đã chọn là "Hoa" thì sử dụng homeProducCartListFlower
-            filteredData = homeProducCartListFlower
-        } else {
-            // Nếu không, lọc danh sách sản phẩm dựa trên danh mục đã chọn
-            filteredData = productData.filter(
-                (prodData) =>
-                    prodData.category.toLowerCase() === selectedCategory.toLowerCase()
-            )
-        }
-        // Cập nhật trạng thái dataFilter với dữ liệu đã lọc
-        setDataFilter(filteredData)
     }
 
     return (
@@ -143,31 +113,7 @@ const Home = () => {
                 </div>
             </div>
 
-
-            <div className="my-5 mt-20">
-                <h2 className="font-bold text-3xl text-slate-800 mb-4">
-                    All Product
-                </h2>
-            </div>
-
-            <div className='flex'>
-                <FilterProducts categoryList={categories} onClick={(category) => handleFilterProduct(category)} />
-            </div>
-
-            <div className="flex flex-wrap justify-center gap-5 my-8">
-                {
-                    dataFilter.map((e) => (
-                        <CardFeature
-                            key={e._id}
-                            id={e._id}
-                            image={e.image}
-                            name={e.name}
-                            category={e.category}
-                            price={e.price}
-                        />
-                    ))
-                }
-            </div>
+            <AllProduct heading={"All Product"}/>
         </div>
     )
 }
