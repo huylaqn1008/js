@@ -1,6 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
+  import AllProduct from '../components/AllProduct'
 
 const Menu = () => {
   // Lấy giá trị filterby từ useParams() để lọc sản phẩm được chọn
@@ -37,8 +38,11 @@ const Menu = () => {
           </div>
         </div>
       ) : (
-        <p>Loading...</p>
+        <div className='w-full max-w-4xl bg-white m-auto md:flex justify-center flex items-center'>
+          <p className='text-xl text-gray-500'>Loading...</p>
+        </div>
       )}
+      <AllProduct heading={"Other Product"} />
     </div>
   )
 
