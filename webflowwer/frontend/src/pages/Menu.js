@@ -3,11 +3,17 @@ import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 
 const Menu = () => {
+  // Lấy giá trị filterby từ useParams() để lọc sản phẩm được chọn
   const { filterby } = useParams()
+
+  // Lấy danh sách sản phẩm từ Redux store bằng useSelector()
   const productData = useSelector(state => state.product.productList)
 
+  // Lọc ra sản phẩm có _id trùng với filterby và lưu vào productDisplay, 
+  // filter trả về 1 mảng nên chúng ta lấy phần tử đầu tiên [0]
   const productDisplay = productData.filter(e => e._id === filterby)[0]
-  console.log(productDisplay)
+
+  console.log(productDisplay) // Hiển thị chi tiết của sản phẩm được lọc ra 
 
   return (
     <div className='p-2 md:p-4'>
@@ -34,7 +40,7 @@ const Menu = () => {
         <p>Loading...</p>
       )}
     </div>
-  );
+  )
 
 }
 

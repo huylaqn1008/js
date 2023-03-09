@@ -1,54 +1,72 @@
-import React, { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useRef, useState } from "react"
+import { useSelector } from "react-redux"
 import MotorBike from "../assets/motorbike.png"
 import Flowers from "../assets/flowers.png"
 import Friendly from "../assets/friendly.png"
-import HomeCard from "../components/HomeCard";
-import CardFeature from "../components/CardFeature";
-import { GrFormPreviousLink, GrFormNextLink } from "react-icons/gr";
-import FilterProducts from "../components/FilterProducts";
+import HomeCard from "../components/HomeCard"
+import CardFeature from "../components/CardFeature"
+import { GrFormPreviousLink, GrFormNextLink } from "react-icons/gr"
+import FilterProducts from "../components/FilterProducts"
 
 const Home = () => {
-    const productData = useSelector((state) => state.product.productList);
-    console.log(productData);
+    // Sử dụng hook useSelector từ react-redux để lấy state productList từ store của redux
+    const productData = useSelector((state) => state.product.productList)
+    console.log(productData)
 
-    const homeProducCartList = productData.slice(0, 5);
+    // Lấy 5 sản phẩm đầu tiên cho giỏ hàng trang chủ
+    const homeProducCartList = productData.slice(0, 5)
 
+    // Lọc và lấy 10 sản phẩm hoa đầu tiên cho giỏ hàng trang chủ
     const homeProducCartListFlower = [...productData].filter((item) => ["rose", "orchid", "lily", "apricot", "lotus", "hibiscus"].includes(item.category)).slice(0, 10)
     console.log(homeProducCartListFlower)
 
-    const loadingArray = new Array(5).fill(null);
-    const loadingArrayFeature = new Array(10).fill(null);
+    // Tạo hai mảng với các giá trị null
+    const loadingArray = new Array(5).fill(null)
+    const loadingArrayFeature = new Array(10).fill(null)
 
-    const slideProductRef = useRef();
+    // Sử dụng useRef để lấy slideProductRef của danh sách sản phẩm cuộn được
+    const slideProductRef = useRef()
+
+    // Hàm di chuyển danh sách sản phẩm sang phải 200px khi nhấp vào nút
     const nextProduct = () => {
-        slideProductRef.current.scrollLeft += 200;
-    };
+        slideProductRef.current.scrollLeft += 200
+    }
+
+    // Hàm di chuyển danh sách sản phẩm sang trái 200px khi nhấp vào nút
     const previousProduct = () => {
-        slideProductRef.current.scrollLeft -= 200;
-    };
+        slideProductRef.current.scrollLeft -= 200
+    }
 
-    const categories = ["rose", "orchid", "lily", "apricot", "lotus", "hibiscus"];
+    // Một mảng các danh mục để sử dụng làm tùy chọn bộ lọc
+    const categories = ["rose", "orchid", "lily", "apricot", "lotus", "hibiscus"]
 
-    const [filterBy, setFilterBy] = useState("");
-    const [dataFilter, setDataFilter] = useState([]);
+    // Sử dụng useState hook để đặt giá trị bộ lọc mặc định
+    const [filterBy, setFilterBy] = useState("")
+    // Sử dụng useState hook để đặt trạng thái ban đầu của dataFilter bằng tất cả các sản phẩm
+    const [dataFilter, setDataFilter] = useState([])
 
+    // Sử dụng useEffect để thực hiện setDataFilter với giá trị ban đầu là productList lấy từ store.
     useEffect(() => {
-        setDataFilter(productData);
-    }, [productData]);
+        setDataFilter(productData)
+    }, [productData])
 
+    // Hàm xử lý các thay đổi tùy chọn bộ lọc danh mục
     const handleFilterProduct = (selectedCategory) => {
-        let filteredData = [];
+        let filteredData = []
         if (selectedCategory === "Flowers") {
-            filteredData = homeProducCartListFlower;
+            // Nếu danh mục đã chọn là "Hoa" thì sử dụng homeProducCartListFlower
+            filteredData = homeProducCartListFlower
         } else {
+            // Nếu không, lọc danh sách sản phẩm dựa trên danh mục đã chọn
             filteredData = productData.filter(
                 (prodData) =>
                     prodData.category.toLowerCase() === selectedCategory.toLowerCase()
-            );
+            )
         }
-        setDataFilter(filteredData);
-    };
+        // Cập nhật trạng thái dataFilter với dữ liệu đã lọc
+        setDataFilter(filteredData)
+    }
+
     return (
         <div className="p-2 md:p-4">
             <div className="md:flex gap-4 py-2">
@@ -117,7 +135,7 @@ const Home = () => {
                                     price={e.price}
                                     image={e.image}
                                 />
-                            );
+                            )
                         })
                         : loadingArrayFeature.map((el, index) => (
                             <CardFeature loading="Loading..." key={index + "cartLoading"} />
@@ -154,4 +172,4 @@ const Home = () => {
     )
 }
 
-export default Home;
+export default Home
