@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import logo from '../assets/logo.png'
 import { HiOutlineUserCircle } from 'react-icons/hi'
@@ -6,6 +6,7 @@ import { FaShoppingCart } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
 import { logoutRedux } from '../redux/userSlice'
 import { toast } from 'react-hot-toast'
+import { addCartItem } from '../redux/productSlice'
 
 const Header = () => {
   const [showMenu, setShowMenu] = useState(false)  // State Hook được sử dụng để giữ thông tin về trạng thái của menu hiển thị hoặc ẩn
@@ -23,7 +24,12 @@ const Header = () => {
     toast("Logout successfully")
   }
 
-  const cartItemNumber = useSelector((state) => state.product.cartItem)
+  useEffect(() => {
+    const email = process.env.REACT_APP_LOCAL_STORAGE_KEY;
+    const currentCart = JSON.parse(localStorage.getItem(email)) || [];
+    dispatch(addCartItem(currentCart)); // update cart items in redux store
+  }, [dispatch]);
+  const cartItemNumber = useSelector((state) => state.product.cartItem.length);
 
   return (
     <header className='fixed shadow-md w-full h-32 px-2 md:px-4 z-50 bg-white' style={{ borderBottom: '2px solid #ccc' }}>
@@ -50,7 +56,7 @@ const Header = () => {
             <Link to={'/cart'} className='ml-10 mx-4 text-gray-600 hover:text-red-500'>
               <FaShoppingCart size={30} />
               < div className='absolute left-5 top-5 text-white bg-red-500 h-5 w-5 rounded-full m-0 text-sm text-center'>
-                {cartItemNumber.length}
+                {cartItemNumber}
               </div>
             </Link>
           </div>

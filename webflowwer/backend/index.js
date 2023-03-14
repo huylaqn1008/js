@@ -113,11 +113,11 @@ app.post('/login', async (req, res) => {
 
 // Xác định lược đồ sản phẩm cho mongoose
 const schemaProduct = mongoose.Schema({
-  name: String,
-  category: String,
-  image: String,
-  price: String,
-  description: String
+  name: { type: String, required: true },
+  category: { type: String, required: true },
+  image: { type: String, required: true },
+  price: { type: String, required: true },
+  description: String,
 })
 
 // Tạo một mô hình sản phẩm với lược đồ đã xác định
@@ -125,19 +125,55 @@ const productModel = mongoose.model("product", schemaProduct)
 
 // Lưu product trong db
 app.post("/uploadProduct", async (req, res) => {
-  console.log(req.body)
-  const data = await productModel(req.body) // Tạo một tài liệu mới từ dữ liệu nội dung yêu cầu nhận được
-  const datasave = await data.save() // Lưu tài liệu mới vào cơ sở dữ liệu
-  res.send({
-    message: "Upload successfully",
-    background: '#00FF7F',
-    color: 'white'
-  }) // Gửi phản hồi xác nhận upload thành công
+  const { name, category, image, price, description } = req.body // Trích xuất thông tin sản phẩm từ body của yêu cầu
+
+  const newProduct = new productModel({
+    name,
+    category,
+    image,
+    price,
+    description
+  })
+
+  try {
+    const savedProduct = await newProduct.save() // Lưu sản phẩm mới vào database
+    res.send({
+      message: "Upload successfully",
+      background: '#00FF7F',
+      color: 'white'
+    })
+  } catch (err) {
+    console.error(err)
+    res.status(500).send("Error saving product")
+  }
 })
+
 
 //  Product page
 app.get("/product", async (req, res) => {
   const data = await productModel.find({})
+  res.send(data)
+})
+
+app.get("/product/:id", async (req, res) => {
+  let data = await productModel.findOne({ _id: req.params.id })
+  if (data) {
+    res.send(data)
+  } else {
+    res.send("No Found")
+  }
+})
+
+app.put("/product/:id", async (req, res) => {
+  let data = await productModel.updateOne(
+    { _id: req.params.id },
+    { $set: req.body }
+  )
+  res.send(data)
+})
+
+app.delete("/product/:id", async (req, res) => {
+  let data = await productModel.deleteOne({_id: req.params.id})
   res.send(data)
 })
 
