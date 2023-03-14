@@ -24,6 +24,11 @@ export const productSlice = createSlice({
                 toast("Item Added Successfully")
                 const total = action.payload.price
                 state.cartItem = [...state.cartItem, { ...action.payload, quanity: 1, total: total }]
+                // Lưu giỏ hàng vào localStorage
+                const email = process.env.REACT_APP_LOCAL_STORAGE_KEY;
+                const currentCart = JSON.parse(localStorage.getItem(email)) || [];
+                const newCart = [...currentCart, { ...action.payload, quanity: 1, total: total }];
+                localStorage.setItem(email, JSON.stringify(newCart));
             }
         },
         deleteCartItem: (state, action) => {
@@ -32,6 +37,11 @@ export const productSlice = createSlice({
                 const index = state.cartItem.findIndex((e) => e._id === action.payload)
                 state.cartItem.splice(index, 1)
                 console.log(index);
+                // Xóa sản phẩm khỏi giỏ hàng trong localStorage
+                const email = process.env.REACT_APP_LOCAL_STORAGE_KEY;
+                const currentCart = JSON.parse(localStorage.getItem(email)) || [];
+                const newCart = currentCart.filter((item) => item._id !== action.payload);
+                localStorage.setItem(email, JSON.stringify(newCart));
             }
         },
         increaseQuanity: (state, action) => {
@@ -45,6 +55,21 @@ export const productSlice = createSlice({
             const total = (price * qtyInc).toLocaleString('vi-VN', {minimumFractionDigits: 0}).replace(',', '.')
 
             state.cartItem[index].total = total;
+
+            // Cập nhật giỏ hàng trong localStorage
+            const email = process.env.REACT_APP_LOCAL_STORAGE_KEY;
+            const currentCart = JSON.parse(localStorage.getItem(email)) || [];
+            const updatedCart = currentCart.map((item) => {
+                if (item._id === action.payload) {
+                    return {
+                        ...item,
+                        quanity: qtyInc,
+                        total: total,
+                    };
+                }
+                return item;
+            });
+            localStorage.setItem(email, JSON.stringify(updatedCart));
         },
         decreaseQuanity: (state, action) => {
             const index = state.cartItem.findIndex((el) => el._id === action.payload);
@@ -57,10 +82,26 @@ export const productSlice = createSlice({
                 const total = (price * qtyDec).toLocaleString('vi-VN', {minimumFractionDigits: 0}).replace(',', '.')
     
                 state.cartItem[index].total = total;
+
+                // Cập nhật giỏ hàng trong localStorage
+                const email = process.env.REACT_APP_LOCAL_STORAGE_KEY;
+                const currentCart = JSON.parse(localStorage.getItem(email)) || [];
+                const updatedCart = currentCart.map((item) => {
+                    if (item._id === action.payload) {
+                        return {
+                            ...item,
+                            quanity: qtyDec,
+                            total: total,
+                        };
+                    }
+                    return item;
+                });
+                localStorage.setItem(email, JSON.stringify(updatedCart));
             }
         },
     }
 })
+
 
 // Export ra các hàm action creator để dispatch các action tương ứng với sản phẩm
 export const { setDataProduct, addCartItem, deleteCartItem, increaseQuanity, decreaseQuanity } = productSlice.actions
