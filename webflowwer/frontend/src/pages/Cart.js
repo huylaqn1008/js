@@ -1,26 +1,36 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import CartProduct from '../components/CartProduct';
 import emptyCart from '../assets/empty-cart.gif';
+import { setDataProduct } from '../redux/productSlice';
 
 const Cart = () => {
-    const [productCartItem, setProductCartItem] = useState([]);
-    const adminEmail = process.env.REACT_APP_LOCAL_STORAGE_KEY;
+    const productCartItem = useSelector((state) => state.product.cartItem)
+    const totalPrice = productCartItem.reduce(
+        (acc, curr) =>
+            parseFloat(acc.toString().replace(/\./g, '').replace(',', '.')) +
+            parseFloat(curr.total.replace(/\./g, '').replace(',', '.')),
+        0
+    )
+    const totalQuantity = productCartItem.reduce((acc, curr) => acc + parseInt(curr.quanity), 0)
 
     useEffect(() => {
-        const cartItemString = localStorage.getItem(adminEmail);
-        if (cartItemString) {
-            const cartItems = JSON.parse(cartItemString);
-            // Lọc ra các sản phẩm không đủ thông tin
-            const validCartItems = cartItems.filter(item => item.name && item.category && item.image && item.price && item.quanity && item.total);
-            setProductCartItem(validCartItems);
+        // Get latest cart data from local storage
+        const email = process.env.REACT_APP_LOCAL_STORAGE_KEY;
+        const currentCart = JSON.parse(localStorage.getItem(email)) || [];
+
+        // Dispatch new cart data if not empty
+        if (currentCart.length > 0) {
+            console.log('Current cart:', currentCart);
+            setDataProduct(setDataProduct(currentCart), null, currentCart); // pass in cart data as third argument
         }
-    }, [])
+    }, []);
 
-    const totalPrice = productCartItem.reduce((acc, curr) => acc + parseFloat(curr.total?.replace(/\./g, '').replace(',', '.')) || 0, 0);
-    console.log(totalPrice.toLocaleString('vi-VN', { minimumFractionDigits: 0 }));
-
-    const totalQuantity = productCartItem.reduce((acc, curr) => acc + parseInt(curr.quanity), 0)
+    // Update local storage whenever cart data changes
+    useEffect(() => {
+        const email = process.env.REACT_APP_LOCAL_STORAGE_KEY
+        localStorage.setItem(email, JSON.stringify(productCartItem))
+    }, [productCartItem])
 
     return (
         <>

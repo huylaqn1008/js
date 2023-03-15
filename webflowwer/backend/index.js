@@ -2,6 +2,7 @@ const express = require("express")
 const cors = require("cors")
 const mongoose = require("mongoose")
 const dotenv = require("dotenv")
+const bcrypt = require('bcryptjs');
 
 const app = express() // Tạo instance của Express app
 app.use(cors())
@@ -73,36 +74,37 @@ app.get("/login", (req, res) => {
 
 app.post('/login', async (req, res) => {
   console.log(req.body)
-  const { email } = req.body
+  const { email, password } = req.body
   try {
     const result = await userModel.findOne({ email: email })
-    if (result) { // Nếu người dùng được tìm thấy trong DB
-      const dataSend = { // Xây dựng dữ liệu phản hồi để gửi tới giao diện người dùng máy khách
+
+    if (result && result.password === password) { // So sánh mật khẩu nhập vào với mật khẩu trong database
+      const dataSend = {
         _id: result._id,
         firstName: result.firstName,
         lastName: result.lastName,
         email: result.email,
         image: result.image,
       }
-      console.log(dataSend) // Ghi lại dữ liệu phản hồi cho mục đích gỡ lỗi
-      res.send({ // Gửi thông báo thành công và dữ liệu phản hồi được tạo
+
+      res.send({
         message: 'Login is successful',
         alert: true,
         data: dataSend,
         background: '#00FF7F',
         color: 'white'
       })
-    } else { // Nếu không tìm thấy người dùng trong DB
-      res.send({ // Gửi thông báo lỗi
-        message: 'Email is not available, please sign up',
+    } else { // Không tìm thấy người dùng hoặc mật khẩu không khớp
+      res.send({
+        message: 'Email or Password is incorrect',
         alert: false,
         background: 'red',
         color: 'white'
       })
     }
-  } catch (error) { // Bắt lỗi được đưa ra trong quá trình hoạt động không đồng bộ/chờ đợi
+  } catch (error) {
     console.log(error)
-    res.send({ // Gửi thông báo lỗi
+    res.send({
       message: 'Error occurred while finding user data',
       alert: false,
       background: 'red',
@@ -173,7 +175,7 @@ app.put("/product/:id", async (req, res) => {
 })
 
 app.delete("/product/:id", async (req, res) => {
-  let data = await productModel.deleteOne({_id: req.params.id})
+  let data = await productModel.deleteOne({ _id: req.params.id })
   res.send(data)
 })
 

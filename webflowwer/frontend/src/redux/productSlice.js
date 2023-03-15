@@ -27,8 +27,12 @@ export const productSlice = createSlice({
                 // Lưu giỏ hàng vào localStorage
                 const email = process.env.REACT_APP_LOCAL_STORAGE_KEY;
                 const currentCart = JSON.parse(localStorage.getItem(email)) || [];
-                const newCart = [...currentCart, { ...action.payload, quanity: 1, total: total }];
-                localStorage.setItem(email, JSON.stringify(newCart));
+                if (Array.isArray(currentCart)) {
+                    const newCart = [...currentCart, { ...action.payload, quanity: 1, total: total }];
+                    localStorage.setItem(email, JSON.stringify(newCart));
+                } else {
+                    console.error("Current Cart is not an Array: ", currentCart);
+                }
             }
         },
         deleteCartItem: (state, action) => {
@@ -52,7 +56,7 @@ export const productSlice = createSlice({
             state.cartItem[index].quanity = qtyInc;
 
             const price = Number(state.cartItem[index].price.replace(/\./g, ''));
-            const total = (price * qtyInc).toLocaleString('vi-VN', {minimumFractionDigits: 0}).replace(',', '.')
+            const total = (price * qtyInc).toLocaleString('vi-VN', { minimumFractionDigits: 0 }).replace(',', '.')
 
             state.cartItem[index].total = total;
 
@@ -79,8 +83,8 @@ export const productSlice = createSlice({
                 state.cartItem[index].quanity = qtyDec;
 
                 const price = Number(state.cartItem[index].price.replace(/\./g, ''));
-                const total = (price * qtyDec).toLocaleString('vi-VN', {minimumFractionDigits: 0}).replace(',', '.')
-    
+                const total = (price * qtyDec).toLocaleString('vi-VN', { minimumFractionDigits: 0 }).replace(',', '.')
+
                 state.cartItem[index].total = total;
 
                 // Cập nhật giỏ hàng trong localStorage
