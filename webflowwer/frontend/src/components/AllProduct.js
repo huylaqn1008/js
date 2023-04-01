@@ -84,9 +84,9 @@ const AllProduct = ({ heading, loading }) => {
                 const filteredProducts = searchProductByName(searchText).filter(
                     e => filterBy.length === 0 || e.category.toLowerCase() === filterBy.toLowerCase()
                 );
-                // Set dataFilter using temp array to keep all products without removing any
+                // Đặt dataFilter sử dụng mảng tạm thời để giữ tất cả các sản phẩm mà không xóa bất kỳ
                 setDataFilter([...filteredProducts]);
-                // Hide loading state
+                // Ẩn trạng thái tải
                 setSearching(false);
             }, 2000);
         }
