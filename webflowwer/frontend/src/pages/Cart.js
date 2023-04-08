@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import CartProduct from '../components/CartProduct';
-import emptyCart from '../assets/empty-cart.gif';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import CartProduct from '../components/CartProduct'
+import emptyCart from '../assets/empty-cart.gif'
+import { Link } from 'react-router-dom'
 
 function Cart() {
     const productCartItem = useSelector((state) => state.product.cartItem) // Lấy cart item từ redux store
