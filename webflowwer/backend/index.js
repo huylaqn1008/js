@@ -94,7 +94,7 @@ app.post('/login', async (req, res) => {
   try {
     const result = await userModel.findOne({ email: email })
 
-    if (result && await bcrypt.compare(password, result.password)) { // Compare input password with hash from database
+    if (result && await bcrypt.compare(password, result.password)) { // So sánh mật khẩu đầu vào với hàm băm từ cơ sở dữ liệu
       const token = jwt.sign({ email: result.email }, accessTokenSecret) // Xuất JWT với payload là email
 
       const dataSend = {

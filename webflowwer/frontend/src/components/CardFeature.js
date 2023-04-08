@@ -39,7 +39,7 @@ const CardFeature = ({ image, name, price, category, loading, id }) => {
                 toast.error(result.message)
             } else {
                 toast.success("Product deleted")
-                window.location.reload() // reset trang web sau khi xóa thành công
+                window.location.reload() // Reset trang web sau khi xóa thành công
             }
         }
     }

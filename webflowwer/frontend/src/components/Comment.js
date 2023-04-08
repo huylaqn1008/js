@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import BadWords from 'bad-words'
 import { TbSend } from 'react-icons/tb'
 import { useSelector } from 'react-redux'
-import moment from 'moment';
+import moment from 'moment'
 
 
 const Comment = ({ productId }) => {
